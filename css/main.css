@@ -176,11 +176,11 @@ button {
   border-color: rgba(0,200,255,0.6);
   box-shadow: 0 0 10px rgba(0,200,255,0.35);
 }
-.inv-slot[data-item="drums"].has-item {
+.inv-slot[data-item="sp404"].has-item {
   border-color: rgba(255,140,20,0.6);
   box-shadow: 0 0 10px rgba(255,140,20,0.35);
 }
-.inv-slot[data-item="records"].has-item {
+.inv-slot[data-item="mic"].has-item {
   border-color: rgba(255,201,74,0.6);
   box-shadow: 0 0 10px rgba(255,201,74,0.35);
 }

@@ -263,13 +263,30 @@ function buildFinalShopMap() {
   // Interior floor
   for (let y = 2; y <= 13; y++) for (let x = 1; x <= 20; x++) m[y][x] = T.FLOOR;
 
-  // Counter display cases
+  // Back wall windows — glowing display niches
+  for (let x = 3; x <= 19; x += 4) m[2][x] = T.WIN;
+
+  // Front display cases (three case banks)
   for (let x = 3; x <= 7; x++) { m[4][x] = T.CTR; m[5][x] = T.CTR; }
   for (let x = 9; x <= 13; x++) { m[4][x] = T.CTR; m[5][x] = T.CTR; }
   for (let x = 15; x <= 19; x++) { m[4][x] = T.CTR; m[5][x] = T.CTR; }
 
-  // Top-row display counters
+  // Top-row altar shelf
   for (let x = 3; x <= 19; x += 2) m[3][x] = T.CTR;
+
+  // Left wall display alcoves
+  for (let y = 7; y <= 9; y++) { m[y][1] = T.CTR; m[y][2] = T.CTR; }
+  for (let y = 11; y <= 12; y++) { m[y][1] = T.CTR; m[y][2] = T.CTR; }
+
+  // Right wall display alcoves
+  for (let y = 7; y <= 9; y++) { m[y][19] = T.CTR; m[y][20] = T.CTR; }
+  for (let y = 11; y <= 12; y++) { m[y][19] = T.CTR; m[y][20] = T.CTR; }
+
+  // Central platform — raised stage around the recording station
+  for (let y = 6; y <= 9; y++) for (let x = 8; x <= 14; x++) m[y][x] = T.PLAT;
+  // Keep path through the platform walkable
+  for (let y = 6; y <= 9; y++) { m[y][10] = T.FLOOR; m[y][11] = T.FLOOR; }
+  for (let x = 8; x <= 14; x++) { m[9][x] = T.FLOOR; }
 
   // Exit at bottom row 14
   m[14][10] = T.FLOOR; m[14][11] = T.FLOOR;
@@ -396,24 +413,41 @@ const WORLD = {
 
   finalshop: {
     name: 'CRYSTAL SHOP',
-    ambient: 'The crystals hum. All frequencies aligned. Time to record.',
+    ambient: '◆ Every crystal in this room has been waiting for you. The signal is ready.',
     tiles: buildFinalShopMap(),
     entities: [
-      // Crystal display (decorative)
-      { type:'deco', id:'d_display', x:4*TS, y:6*TS },
+      // Deco crystal clusters — scattered throughout the shop
+      { type:'deco', id:'d_cluster_a', x:4*TS,    y:6*TS   },
+      { type:'deco', id:'d_cluster_b', x:16*TS,   y:6*TS   },
+      { type:'deco', id:'d_cluster_c', x:10*TS,   y:12*TS  },
+      { type:'deco', id:'d_cluster_d', x:2*TS+8,  y:10*TS  },
+      { type:'deco', id:'d_cluster_e', x:19*TS+8, y:10*TS  },
+      { type:'deco', id:'d_cluster_f', x:7*TS,    y:13*TS  },
+      { type:'deco', id:'d_cluster_g', x:14*TS,   y:13*TS  },
       // Recording station — interact to trigger finale
       { type:'station', id:'recording', x:10*TS+16, y:7*TS+16 },
-      // Crystals (6)
+      // Crystals — dense scatter in all colors
       { type:'crystal', id:'c_fs_0',  x:4*TS+8,  y:7*TS+8,  color:'#b060ff' },
-      { type:'crystal', id:'c_fs_1',  x:8*TS+4,  y:9*TS+8  },
+      { type:'crystal', id:'c_fs_1',  x:8*TS+4,  y:10*TS+8  },
       { type:'crystal', id:'c_fs_2',  x:12*TS+8, y:11*TS+8, color:'#00c8ff' },
       { type:'crystal', id:'c_fs_3',  x:16*TS+4, y:7*TS+8,  color:'#ff8c14' },
       { type:'crystal', id:'c_fs_4',  x:18*TS+8, y:10*TS+8, color:'#ffc94a' },
       { type:'crystal', id:'c_fs_5',  x:6*TS+4,  y:12*TS+8, color:'#b060ff' },
+      { type:'crystal', id:'c_fs_6',  x:3*TS+4,  y:9*TS+8,  color:'#ffc94a' },
+      { type:'crystal', id:'c_fs_7',  x:19*TS+4, y:8*TS+8,  color:'#00c8ff' },
+      { type:'crystal', id:'c_fs_8',  x:14*TS+8, y:12*TS+8, color:'#b060ff' },
+      { type:'crystal', id:'c_fs_9',  x:5*TS+4,  y:11*TS+8, color:'#ff8c14' },
+      { type:'crystal', id:'c_fs_10', x:17*TS+4, y:12*TS+8, color:'#ffc94a' },
+      { type:'crystal', id:'c_fs_11', x:9*TS+8,  y:13*TS+4, color:'#00c8ff' },
+      { type:'crystal', id:'c_fs_12', x:13*TS+4, y:13*TS+4, color:'#b060ff' },
+      { type:'crystal', id:'c_fs_13', x:2*TS+8,  y:12*TS+8, color:'#b060ff' },
+      { type:'crystal', id:'c_fs_14', x:20*TS,   y:12*TS+8, color:'#ff8c14' },
       // Trigger: exit
       { type:'trigger', id:'t_back_city2', x:10*TS+8, y:13*TS+16, label:'MAIN STREET', toMap:'city', toX:10*TS, toY:8*TS },
-      // Sign
-      { type:'sign', id:'s_shop', x:8*TS, y:2*TS+4, text:['CRYSTAL NIGHTS', 'THE SHOP'] },
+      // Signs
+      { type:'sign', id:'s_shop',  x:8*TS,    y:2*TS+4, text:['CRYSTAL NIGHTS', 'THE SHOP'] },
+      { type:'sign', id:'s_left',  x:3*TS,    y:3*TS+4, text:['RARE SPECIMENS'] },
+      { type:'sign', id:'s_right', x:14*TS,   y:3*TS+4, text:['THE ARCHIVE'] },
     ],
   },
 };
@@ -427,9 +461,9 @@ const NPCS = {
     color: '#b060ff', item: 'amethyst', unlocks: ['hills','underground'],
     dialog: [
       'You found it. Not everyone does. This city hides its doors from the ones who are rushing.',
-      'Before there was a song, there was a voice. Before the voice — a silence long enough to hear something true.',
-      'The microphone was the first relic. Point it at the world and the world confesses. We recorded rain on rooftops. Bus engines. Our own breath.',
-      'Take this amethyst — it vibrates at the frequency of what you are searching for. Head north to the hills. Go underground. The signal is already waiting.',
+      'Before there was a song, there was energy. Before the energy — a silence deep enough to feel something stir.',
+      'This amethyst is not a stone. It is a tuning fork for everything you are about to find. It hums at the frequency of what has not yet been made.',
+      'Take it. Let it pull you where it wants to go. Head north to the hills. Go underground. The signal is already waiting.',
     ],
   },
   leo: {
@@ -444,27 +478,27 @@ const NPCS = {
   },
   marcus: {
     id: 'marcus', name: 'MARCUS', role: 'Keeper of the Pulse',
-    color: '#ff8c14', item: 'drums', unlocks: ['train'],
+    color: '#ff8c14', item: 'sp404', unlocks: ['train'],
     dialog: [
-      "The 808 was designed to imitate a drummer who would never tire, never miss. Instead it became something stranger — a heartbeat that never lived, but makes people feel alive.",
-      'We found ours in a broken state. Kick too loud, hi-hats leaking into everything. We kept it exactly like that.',
-      'Rhythm isn\'t time — it\'s the memory of time. Every kick drum is a marker: I was here. This moment happened.',
-      'Jin is on the 7 train — last car. She has the SP404. Go now, before the line stops running.',
+      'The SP404 is not a tool. It is a time machine. Press a pad and a moment plays back — not just sound, but the whole feeling of the room it was born in.',
+      'We sampled everything. A train door closing. A chord played once on a piano that no longer exists. Rain on a skylight at 3am when there was no reason to be awake except this.',
+      'Sampling is the oldest music there is. The first musician heard a bird and tried to sing it back. We are all just doing that, with better equipment.',
+      'Jin is on the 7 train — last car. She has the microphone. Go now, before the line stops running.',
     ],
   },
   jin: {
-    id: 'jin', name: 'JIN', role: 'Keeper of the Archive',
-    color: '#ffc94a', item: 'records', unlocks: [],
+    id: 'jin', name: 'JIN', role: 'Keeper of the Voice',
+    color: '#ffc94a', item: 'mic', unlocks: [],
     dialog: [
-      "The SP404 is a memory palace in a grey box. Press a pad and a moment plays back — not just sound, but the whole feeling of the room it was born in.",
-      'We sampled everything. A radiator knock. A chord played once on a piano that no longer exists. Rain on a skylight at 3am when there was no reason to be awake except this.',
-      'Sampling is the oldest music there is. The first musician heard a bird and tried to sing it back. We are all just doing that, with better equipment.',
-      'Everything you need is in here. The archive is complete. Go find the Crystal Shop — the signal is ready to become a song.',
+      'The microphone does not record sound. It records intention. You lean in close and something true comes out.',
+      'We sang into this one for three years. Broke it twice, fixed it, broke it again. The capsule still carries every room we have been in.',
+      'Your voice is the only instrument that was inside your body before you ever heard music. That is not nothing.',
+      'Everything you need is here now. The signal is complete. Go find the Crystal Shop — let the crystals finish what we started.',
     ],
   },
 };
 
-const ALL_ITEMS = ['amethyst', 'synth', 'drums', 'records'];
+const ALL_ITEMS = ['amethyst', 'synth', 'sp404', 'mic'];
 
 /* ─────────────────────────────────────────────────────────────
    GAME STATE
@@ -1425,8 +1459,8 @@ function drawStation(e) {
   ctx.font      = '7px Courier New';
   ctx.fillStyle = 'rgba(176,96,255,0.9)';
   ctx.shadowBlur = 4;
-  ctx.fillText('RECORDING STATION', px, py - 16);
-  ctx.fillText('[ Z ] INITIATE', px, py + 22);
+  ctx.fillText('◆ THE SIGNAL ◆', px, py - 16);
+  ctx.fillText('[ Z ] TRANSMIT', px, py + 22);
 
   ctx.restore();
 }
@@ -1545,7 +1579,9 @@ function drawNeonSigns(map, cx, cy, cw, ch) {
       { text: 'LINE 7', x: 11 * TS, y: 1 * TS - 4, color: '#ffc94a', size: 11 },
     ],
     finalshop: [
-      { text: 'CRYSTAL NIGHTS', x: 7 * TS, y: 2 * TS + 4, color: '#b060ff', size: 11 },
+      { text: 'CRYSTAL NIGHTS', x: 7 * TS,  y: 2 * TS + 4,  color: '#b060ff', size: 11 },
+      { text: 'RARE SPECIMENS', x: 3 * TS,  y: 3 * TS + 12, color: '#ffc94a', size: 8  },
+      { text: 'THE ARCHIVE',    x: 14 * TS, y: 3 * TS + 12, color: '#00c8ff', size: 8  },
     ],
   };
 
