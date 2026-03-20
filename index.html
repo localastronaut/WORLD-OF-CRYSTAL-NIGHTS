@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WORLD OF CRYSTAL NIGHTS</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/crystals.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     GAME CANVAS — full screen RPG world
+════════════════════════════════════════════════════════════ -->
+<canvas id="gameCanvas"></canvas>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HUD — fixed top overlay
+════════════════════════════════════════════════════════════ -->
+<div id="hud">
+  <div id="hud-left">
+    <span id="hud-logo">◆ CN</span>
+    <span id="hud-location">—</span>
+  </div>
+  <div id="hud-crystals">
+    <span id="crystal-count">◆ 0</span>
+  </div>
+  <div id="hud-inventory">
+    <div class="inv-slot" id="inv-amethyst" data-item="amethyst" title="Amethyst">
+      <div class="inv-icon">◈</div>
+      <div class="inv-label">AMETHYST</div>
+    </div>
+    <div class="inv-slot" id="inv-synth" data-item="synth" title="Synthesizer">
+      <div class="inv-icon">⌇</div>
+      <div class="inv-label">SYNTH</div>
+    </div>
+    <div class="inv-slot" id="inv-drums" data-item="drums" title="808 Drum Machine">
+      <div class="inv-icon">⬡</div>
+      <div class="inv-label">808</div>
+    </div>
+    <div class="inv-slot" id="inv-records" data-item="records" title="Record Crate">
+      <div class="inv-icon">◎</div>
+      <div class="inv-label">RECORDS</div>
+    </div>
+  </div>
+  <div id="hud-right">
+    <button id="btn-reset" class="hud-btn" title="Reset Game">↺</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     DIALOG BOX — slides up from bottom
+════════════════════════════════════════════════════════════ -->
+<div id="dialog-box">
+  <div id="dialog-inner">
+    <div id="dialog-portrait"></div>
+    <div id="dialog-body">
+      <div id="dialog-header">
+        <span id="dialog-npc-name">—</span>
+        <span id="dialog-npc-role">—</span>
+      </div>
+      <p id="dialog-text"></p>
+      <div id="dialog-actions">
+        <button id="dialog-next">[ Z ]  NEXT ▶</button>
+        <button id="dialog-collect" style="display:none;">[ Z ]  COLLECT</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TOAST NOTIFICATION
+════════════════════════════════════════════════════════════ -->
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TRANSITION OVERLAY
+════════════════════════════════════════════════════════════ -->
+<div id="transition-overlay"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     GRAIN OVERLAY — film grain + vignette
+════════════════════════════════════════════════════════════ -->
+<div id="grain-overlay"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TITLE SCREEN
+════════════════════════════════════════════════════════════ -->
+<div id="title-screen">
+  <div class="title-crystal-field">
+    <div class="t-crystal t-c1"><div class="amethyst"></div></div>
+    <div class="t-crystal t-c2"><div class="tourmaline"></div></div>
+    <div class="t-crystal t-c3"><div class="sapphire"></div></div>
+    <div class="t-crystal t-c4"><div class="emerald"></div></div>
+    <div class="t-crystal t-c5"><div class="rose-quartz"></div></div>
+    <div class="t-crystal t-c6"><div class="citrine"></div></div>
+  </div>
+  <div class="title-content">
+    <div class="title-eyebrow">A MUSICAL JOURNEY</div>
+    <h1 class="title-logo">
+      <span class="title-world">WORLD OF</span>
+      <span class="title-main">CRYSTAL</span>
+      <span class="title-nights">NIGHTS</span>
+    </h1>
+    <div class="title-sub">FIND THE SIGNAL · BUILD THE SONG</div>
+    <button id="btn-start" class="btn-primary">[ START JOURNEY ]</button>
+    <div class="title-press">ARROW KEYS / WASD — MOVE &nbsp;·&nbsp; Z / ENTER — INTERACT &nbsp;·&nbsp; M — MAP</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FINALE SCREEN — shown after reaching recording station
+════════════════════════════════════════════════════════════ -->
+<div id="finale-screen">
+  <div class="finale-crystal-bg">
+    <div class="tx-crystal tx-c1"><div class="amethyst large"></div></div>
+    <div class="tx-crystal tx-c2"><div class="tourmaline large"></div></div>
+    <div class="tx-crystal tx-c3"><div class="sapphire large"></div></div>
+    <div class="tx-crystal tx-c4"><div class="citrine large"></div></div>
+  </div>
+  <div class="finale-content">
+    <div class="finale-eyebrow">◆ THE SIGNAL IS COMPLETE ◆</div>
+    <h2 class="finale-title">THE TRANSMISSION</h2>
+    <div class="finale-subtitle">CRYSTAL NIGHTS</div>
+
+    <!-- Cassette Player — player.js mounts here -->
+    <div id="cassette-player">
+      <div id="player-label">◆ CRYSTAL NIGHTS ◆</div>
+      <div id="player-deck">
+        <div id="reel-a" class="reel"></div>
+        <div id="player-window"></div>
+        <div id="reel-b" class="reel"></div>
+      </div>
+      <div id="ticker-text">CRYSTAL NIGHTS — EP</div>
+      <div id="player-controls">
+        <button id="btn-prev">⏮</button>
+        <button id="btn-play">▶</button>
+        <button id="btn-next">⏭</button>
+      </div>
+      <div id="vu-meters">
+        <div class="vu-bar"></div>
+        <div class="vu-bar"></div>
+        <div class="vu-bar"></div>
+        <div class="vu-bar"></div>
+        <div class="vu-bar"></div>
+        <div class="vu-bar"></div>
+        <div class="vu-bar"></div>
+        <div class="vu-bar"></div>
+      </div>
+    </div>
+
+    <div id="tracklist">
+      <div class="track-item" data-track="0">01 — Intro</div>
+      <div class="track-item" data-track="1">02 — Buffering My Heart</div>
+      <div class="track-item" data-track="2">03 — Somewhere in Between</div>
+      <div class="track-item" data-track="3">04 — Bedroom Stardust</div>
+      <div class="track-item" data-track="4">05 — Signals</div>
+    </div>
+
+    <div class="finale-message">
+      <p>Every sound you collected lives inside this song.</p>
+      <p>The amethyst hummed first. Then Leo tuned the frequency.<br>Marcus laid the pulse. Jin brought the memory.</p>
+      <p>This is what the world sounds like when you pay attention.</p>
+    </div>
+
+    <div class="finale-gear-list">
+      <span style="color:#b060ff;">◈ AMETHYST</span>
+      <span>+</span>
+      <span style="color:#00c8ff;">⌇ SYNTH</span>
+      <span>+</span>
+      <span style="color:#ff8c14;">⬡ 808</span>
+      <span>+</span>
+      <span style="color:#ffc94a;">◎ RECORDS</span>
+      <span>=</span>
+      <span class="finale-equals">★ THE SONG</span>
+    </div>
+
+    <div class="finale-actions">
+      <button id="btn-play-again" class="btn-secondary">↺ PLAY AGAIN</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="js/canvas.js"></script>
+<script src="js/player.js"></script>
+<script src="js/game.js"></script>
+
+</body>
+</html>

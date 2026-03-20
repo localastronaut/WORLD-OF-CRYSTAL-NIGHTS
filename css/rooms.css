@@ -1,0 +1,682 @@
+/* =============================================================
+   CRYSTAL NIGHTS — rooms.css
+   Level visual scenes: Street, Hills, Underground, Train, Shop
+   Each location has its own atmosphere and environment.
+============================================================= */
+
+/* ══════════════════════════════════════════════════════════
+   LEVEL: STREET — rainy night, neon shop front
+══════════════════════════════════════════════════════════ */
+
+.street-scene {
+  background: linear-gradient(
+    180deg,
+    #0a0416 0%,
+    #140828 30%,
+    #0d0520 55%,
+    #1a0c08 75%,
+    #0c0806 100%
+  );
+}
+
+/* Wet pavement floor */
+.street-scene .scene-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 32%;
+  background:
+    linear-gradient(180deg, #100d1a 0%, #0a0810 100%),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 79px,
+      rgba(176,96,255,0.05) 80px
+    );
+  border-top: 1px solid rgba(176,96,255,0.15);
+}
+
+/* Pavement reflection */
+.street-scene .scene-floor::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(
+    180deg,
+    rgba(176,96,255,0.06) 0%,
+    transparent 100%
+  );
+}
+
+/* Rain animation */
+.scene-rain {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      15deg,
+      transparent 0px,
+      transparent 4px,
+      rgba(176,200,255,0.04) 4px,
+      rgba(176,200,255,0.04) 5px
+    );
+  animation: rain-fall 0.6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rain-fall {
+  from { background-position: 0 -60px; }
+  to   { background-position: 20px 60px; }
+}
+
+/* Neon shop sign */
+.scene-neon-sign {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 8;
+}
+
+.neon-text {
+  display: block;
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #b060ff;
+  text-shadow:
+    0 0 8px #b060ff,
+    0 0 20px #b060ff,
+    0 0 40px #b060ff,
+    0 0 80px rgba(176,96,255,0.5);
+  animation: neon-flicker 8s ease-in-out infinite;
+}
+
+@keyframes neon-flicker {
+  0%,  94%, 96%, 98%, 100% { opacity: 1; }
+  95%, 97%                  { opacity: 0.7; }
+}
+
+.neon-sub {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: rgba(176,96,255,0.5);
+  margin-top: 4px;
+}
+
+/* Puddles */
+.scene-puddle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(176,96,255,0.08);
+  border: 1px solid rgba(176,96,255,0.15);
+  animation: puddle-ripple 4s ease-in-out infinite;
+}
+
+.puddle-1 {
+  bottom: 18%;
+  left: 20%;
+  width: 80px;
+  height: 18px;
+}
+
+.puddle-2 {
+  bottom: 22%;
+  left: 55%;
+  width: 50px;
+  height: 12px;
+  animation-delay: 1.5s;
+}
+
+@keyframes puddle-ripple {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.8; }
+}
+
+/* Building shapes behind sign */
+.street-scene .scene-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    /* window dots (buildings) */
+    radial-gradient(circle 2px at 15% 35%, rgba(255,240,180,0.4) 0%, transparent 100%),
+    radial-gradient(circle 2px at 18% 40%, rgba(255,240,180,0.3) 0%, transparent 100%),
+    radial-gradient(circle 2px at 22% 32%, rgba(255,240,180,0.35) 0%, transparent 100%),
+    radial-gradient(circle 2px at 78% 38%, rgba(176,96,255,0.4) 0%, transparent 100%),
+    radial-gradient(circle 2px at 82% 33%, rgba(176,96,255,0.3) 0%, transparent 100%),
+    radial-gradient(circle 2px at 76% 42%, rgba(176,96,255,0.35) 0%, transparent 100%),
+    /* building silhouettes */
+    linear-gradient(180deg, transparent 0%, transparent 25%, #0c0818 25%);
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   LEVEL: HILLS — night hilltop, city below, stars above
+══════════════════════════════════════════════════════════ */
+
+.hills-scene {
+  background: linear-gradient(
+    180deg,
+    #020410 0%,
+    #06082a 35%,
+    #0a0c1e 60%,
+    #06040e 100%
+  );
+}
+
+.hills-scene .scene-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 100% 50% at 50% 100%,
+    rgba(0, 30, 80, 0.6) 0%,
+    transparent 70%
+  );
+}
+
+/* skyline-canvas fills bottom half */
+#skyline-canvas {
+  position: absolute;
+  bottom: 20%;
+  left: 0; right: 0;
+  width: 100%;
+  height: 55%;
+  z-index: 3;
+}
+
+/* Stars */
+.scene-stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle 1px at 8%  12%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(circle 1px at 24% 8%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(circle 1px at 38% 16%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(circle 1px at 55% 6%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(circle 1px at 67% 14%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(circle 1px at 79% 9%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(circle 1px at 91% 18%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(circle 1px at 13% 25%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(circle 1px at 46% 22%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(circle 1px at 72% 28%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(circle 2px at 31% 11%, rgba(200,180,255,0.6) 0%, transparent 100%),
+    radial-gradient(circle 2px at 61% 19%, rgba(200,180,255,0.5) 0%, transparent 100%),
+    radial-gradient(circle 2px at 85% 24%, rgba(200,180,255,0.7) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+  animation: stars-twinkle 6s ease-in-out infinite;
+}
+
+@keyframes stars-twinkle {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1; }
+}
+
+/* Hilltop ground line */
+.hills-ground {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 20%;
+  background: linear-gradient(
+    180deg,
+    #0c1006 0%,
+    #080c04 60%,
+    #040602 100%
+  );
+  z-index: 4;
+  border-top: 1px solid rgba(0,200,255,0.1);
+}
+
+.hills-ground::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0,200,255,0.15) 30%,
+    rgba(0,200,255,0.08) 70%,
+    transparent 100%
+  );
+}
+
+.hills-scene .npc-sprite { z-index: 5; }
+.hills-scene .level-collectible { z-index: 5; }
+.hills-scene .level-controls { z-index: 6; }
+
+
+/* ══════════════════════════════════════════════════════════
+   LEVEL: UNDERGROUND — metro station, brutalist concrete
+══════════════════════════════════════════════════════════ */
+
+.underground-scene {
+  background: linear-gradient(
+    180deg,
+    #080608 0%,
+    #0e0a0a 40%,
+    #100c08 100%
+  );
+}
+
+.underground-scene .scene-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, #0a0808 0%, transparent 40%),
+    radial-gradient(ellipse 60% 30% at 50% 0%, rgba(255,100,30,0.04) 0%, transparent 100%);
+}
+
+/* Tiled walls */
+.scene-tiles {
+  position: absolute;
+  top: 0;
+  left: 0; right: 0;
+  height: 58%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 49px,
+      rgba(255,255,255,0.04) 50px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 49px,
+      rgba(255,255,255,0.04) 50px
+    ),
+    linear-gradient(180deg, #0e0a08 0%, #0a0608 100%);
+  border-bottom: 2px solid rgba(255,140,20,0.2);
+}
+
+/* Fluorescent lighting */
+.scene-tiles::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,240,200,0.6);
+  box-shadow: 0 0 30px 4px rgba(255,240,200,0.2);
+  animation: flicker-light 7s ease-in-out infinite;
+}
+
+@keyframes flicker-light {
+  0%, 90%, 92%, 96%, 100% { opacity: 0.7; }
+  91%, 94%                  { opacity: 0.2; }
+}
+
+/* Platform floor */
+.underground-scene .scene-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 30%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 79px,
+      rgba(255,255,255,0.03) 80px
+    ),
+    linear-gradient(180deg, #141010 0%, #0c0a0a 100%);
+  border-top: 2px solid rgba(255,140,20,0.15);
+}
+
+/* Train tracks */
+.scene-tracks {
+  position: absolute;
+  bottom: 8%;
+  left: 0; right: 0;
+  height: 12px;
+  background:
+    /* rails */
+    linear-gradient(90deg, transparent, transparent 20%, #2a2020 20%, #2a2020 22%, transparent 22%,
+      transparent 78%, #2a2020 78%, #2a2020 80%, transparent 80%),
+    /* ties */
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 38px,
+      #1a1818 38px,
+      #1a1818 48px
+    );
+  opacity: 0.8;
+}
+
+/* Concrete pillars */
+.scene-pillars {
+  position: absolute;
+  top: 0; bottom: 30%;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  padding: 0 8%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.pillar {
+  width: 16px;
+  background: linear-gradient(
+    90deg,
+    #0c0808 0%,
+    #181414 20%,
+    #201c1a 50%,
+    #181414 80%,
+    #0c0808 100%
+  );
+  border-left:  1px solid rgba(255,255,255,0.06);
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Orange-tinted ambient glow */
+.underground-scene::after {
+  content: '';
+  position: absolute;
+  bottom: 30%;
+  left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,140,20,0.3) 30%,
+    rgba(255,140,20,0.15) 70%,
+    transparent 100%
+  );
+  z-index: 6;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   LEVEL: TRAIN — late night subway car, last car
+══════════════════════════════════════════════════════════ */
+
+.train-scene {
+  background: linear-gradient(
+    180deg,
+    #080608 0%,
+    #0c0a0c 50%,
+    #0a0808 100%
+  );
+}
+
+.train-scene .scene-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 40% at 50% 50%,
+    rgba(255,200,74,0.03) 0%,
+    transparent 70%
+  );
+}
+
+/* Train interior floor */
+.train-scene .scene-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 28%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      rgba(255,255,255,0.03) 40px
+    ),
+    linear-gradient(180deg, #18140e 0%, #100e0a 100%);
+  border-top: 1px solid rgba(255,200,74,0.12);
+}
+
+/* Train windows (city blur outside) */
+.scene-windows {
+  position: absolute;
+  top: 12%;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 5%;
+  z-index: 2;
+}
+
+.train-window {
+  flex: 1;
+  height: 120px;
+  max-width: 160px;
+  border: 3px solid #2a2420;
+  border-radius: 6px 6px 0 0;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,200,74,0.04) 20%,
+      rgba(176,96,255,0.06) 50%,
+      rgba(0,200,255,0.04) 80%,
+      transparent 100%
+    ),
+    #06050c;
+  overflow: hidden;
+  animation: city-blur 3s ease-in-out infinite alternate;
+}
+
+@keyframes city-blur {
+  from {
+    background-position: 0% 0%;
+    filter: brightness(0.9);
+  }
+  to {
+    background-position: -20% 0%;
+    filter: brightness(1.1);
+  }
+}
+
+/* Window light streaks */
+.train-window::after {
+  content: '';
+  display: block;
+  height: 100%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 12px,
+      rgba(255,220,100,0.12) 12px,
+      rgba(255,220,100,0.12) 14px
+    );
+  animation: streak-move 1.2s linear infinite;
+}
+
+@keyframes streak-move {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-28px); }
+}
+
+/* Bench seats */
+.train-seats {
+  position: absolute;
+  bottom: 28%;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 15%;
+  gap: 8px;
+  z-index: 3;
+}
+
+.seat {
+  width: 44px;
+  height: 24px;
+  background: #1c1418;
+  border-top: 3px solid #2e2428;
+  border-radius: 3px 3px 0 0;
+}
+
+/* Overhead rail light */
+.train-scene::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,220,150,0.5);
+  box-shadow: 0 0 20px 3px rgba(255,220,150,0.15);
+  z-index: 10;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   LEVEL: SHOP — crystal shop finale, full spectrum
+══════════════════════════════════════════════════════════ */
+
+.shop-scene {
+  background: linear-gradient(
+    180deg,
+    #04030a 0%,
+    #080618 40%,
+    #060410 100%
+  );
+}
+
+.shop-scene .scene-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 50%, rgba(176,96,255,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(0,200,255,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 80%, rgba(255,201,74,0.04) 0%, transparent 60%);
+}
+
+/* Radiating glow in center */
+.shop-glow-field {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 60% at 50% 50%,
+    rgba(176,96,255,0.08) 0%,
+    transparent 70%
+  );
+  animation: shop-pulse 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes shop-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+/* Crystal display shelf */
+.shop-crystals-display {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 18px;
+  z-index: 5;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(176,96,255,0.2);
+}
+
+.shop-crystal {
+  animation: crystal-bob 4s ease-in-out infinite;
+}
+
+.sc-1 { animation-delay: 0s;    }
+.sc-2 { animation-delay: 0.5s;  }
+.sc-3 { animation-delay: 1.0s;  }
+.sc-4 { animation-delay: 1.5s;  }
+.sc-5 { animation-delay: 2.0s;  }
+.sc-6 { animation-delay: 2.5s;  }
+.sc-7 { animation-delay: 3.0s;  }
+.sc-8 { animation-delay: 3.5s;  }
+
+@keyframes crystal-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-6px) rotate(2deg); }
+}
+
+/* Crystal size overrides in shop context */
+.shop-crystals-display .amethyst,
+.shop-crystals-display .tourmaline,
+.shop-crystals-display .sapphire,
+.shop-crystals-display .emerald,
+.shop-crystals-display .rose-quartz,
+.shop-crystals-display .citrine,
+.shop-crystals-display .obsidian,
+.shop-crystals-display .pyrite {
+  width: 38px;
+  height: 58px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CRYSTAL SIZE VARIANTS (used on title / transmission)
+══════════════════════════════════════════════════════════ */
+
+.amethyst.small,
+.tourmaline.small,
+.sapphire.small,
+.emerald.small,
+.rose-quartz.small,
+.citrine.small {
+  width: 20px;
+  height: 32px;
+}
+
+.amethyst.large,
+.tourmaline.large,
+.sapphire.large,
+.emerald.large,
+.rose-quartz.large,
+.citrine.large {
+  width: 60px;
+  height: 90px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MAP SCREEN — subtle grid floor feel
+══════════════════════════════════════════════════════════ */
+
+.map-scene::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(176,96,255,0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Available node pulse */
+.map-node.available .node-glyph {
+  animation: node-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes node-pulse {
+  0%, 100% { filter: drop-shadow(0 0 4px currentColor); }
+  50%       { filter: drop-shadow(0 0 12px currentColor); }
+}
+
+/* Completed node check mark overlay */
+.map-node.completed .node-glyph::after {
+  content: '✓';
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  font-size: 10px;
+  color: #4cff90;
+  line-height: 1;
+}
+
+.map-node .node-glyph {
+  position: relative;
+}
