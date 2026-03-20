@@ -229,28 +229,29 @@ function buildUndergroundMap() {
 }
 
 function buildTrainMap() {
-  const W = 26, H = 10;
+  const W = 26, H = 14;
   const m = grid(W, H, T.WALL);
 
-  // Interior
-  for (let y = 1; y <= 8; y++) for (let x = 1; x <= 24; x++) m[y][x] = T.FLOOR;
+  // Two extra wall rows at top push interior below the HUD
+  // Interior: rows 3–10
+  for (let y = 3; y <= 10; y++) for (let x = 1; x <= 24; x++) m[y][x] = T.FLOOR;
 
-  // Seat tiles along top and bottom
+  // Seat tiles along top and bottom of car interior
   for (let x = 2; x <= 23; x += 3) {
-    m[1][x] = T.SEAT;
-    m[8][x] = T.SEAT;
+    m[3][x]  = T.SEAT;
+    m[10][x] = T.SEAT;
   }
 
-  // Windows (WIN tiles) in walls
+  // Windows in the top and bottom walls
   for (let x = 3; x <= 22; x += 4) {
-    m[0][x] = T.WIN;
-    m[9][x] = T.WIN;
+    m[2][x]  = T.WIN;
+    m[11][x] = T.WIN;
   }
 
   // Aisle floor
   for (let x = 1; x <= 24; x++) {
-    m[4][x] = T.FLOOR;
-    m[5][x] = T.FLOOR;
+    m[6][x] = T.FLOOR;
+    m[7][x] = T.FLOOR;
   }
 
   return m;
@@ -382,7 +383,7 @@ const WORLD = {
       { type:'crystal', id:'c_ug_8',  x:13*TS+8,  y:5*TS+8 },
       { type:'crystal', id:'c_ug_9',  x:16*TS+4,  y:10*TS+8 },
       // Triggers
-      { type:'trigger', id:'t_train',     x:27*TS+8, y:7*TS+8, label:'LINE 7 TRAIN', toMap:'train', toX:2*TS+16, toY:4*TS+16, requires:'marcus' },
+      { type:'trigger', id:'t_train',     x:27*TS+8, y:7*TS+8, label:'LINE 7 TRAIN', toMap:'train', toX:2*TS+16, toY:6*TS+16, requires:'marcus' },
       { type:'trigger', id:'t_up_city',   x:5*TS+8,  y:3*TS+8, label:'MAIN STREET',  toMap:'city',  toX:28*TS+16, toY:10*TS+16 },
       // Sign
       { type:'sign', id:'s_ug', x:12*TS, y:2*TS+4, text:['METRO B', 'PLATFORM 3'] },
@@ -394,20 +395,22 @@ const WORLD = {
     ambient: 'Rails against steel. The city as a blur of light.',
     tiles: buildTrainMap(),
     entities: [
-      { type:'npc', id:'jin', x:20*TS+16, y:4*TS+16 },
+      { type:'npc', id:'jin', x:20*TS+16, y:6*TS+16 },
       // Crystals (8)
-      { type:'crystal', id:'c_tr_0',  x:3*TS+8,   y:3*TS+8 },
-      { type:'crystal', id:'c_tr_1',  x:6*TS+4,   y:3*TS+8 },
-      { type:'crystal', id:'c_tr_2',  x:9*TS+8,   y:6*TS+8 },
-      { type:'crystal', id:'c_tr_3',  x:12*TS+4,  y:3*TS+8 },
-      { type:'crystal', id:'c_tr_4',  x:15*TS+8,  y:6*TS+8, color:'#ffc94a' },
-      { type:'crystal', id:'c_tr_5',  x:18*TS+4,  y:3*TS+8 },
-      { type:'crystal', id:'c_tr_6',  x:21*TS+8,  y:6*TS+8 },
-      { type:'crystal', id:'c_tr_7',  x:23*TS+4,  y:3*TS+8 },
-      // Trigger: exit right to finalshop (requires all 4 items)
-      { type:'trigger', id:'t_finalshop', x:24*TS+8, y:4*TS+16, label:'CRYSTAL SHOP', toMap:'finalshop', toX:11*TS, toY:12*TS+16, requiresAll: true },
+      { type:'crystal', id:'c_tr_0',  x:3*TS+8,   y:5*TS+8 },
+      { type:'crystal', id:'c_tr_1',  x:6*TS+4,   y:5*TS+8 },
+      { type:'crystal', id:'c_tr_2',  x:9*TS+8,   y:8*TS+8 },
+      { type:'crystal', id:'c_tr_3',  x:12*TS+4,  y:5*TS+8 },
+      { type:'crystal', id:'c_tr_4',  x:15*TS+8,  y:8*TS+8, color:'#ffc94a' },
+      { type:'crystal', id:'c_tr_5',  x:18*TS+4,  y:5*TS+8 },
+      { type:'crystal', id:'c_tr_6',  x:21*TS+8,  y:8*TS+8 },
+      { type:'crystal', id:'c_tr_7',  x:23*TS+4,  y:5*TS+8 },
+      // Trigger: exit right to Crystal Shop (requires all 4 items)
+      { type:'trigger', id:'t_finalshop',        x:24*TS+8, y:6*TS+16, label:'CRYSTAL SHOP', toMap:'finalshop', toX:11*TS, toY:12*TS+16, requiresAll: true },
+      // Trigger: exit left back to Underground
+      { type:'trigger', id:'t_back_underground', x:1*TS+8,  y:6*TS+16, label:'UNDERGROUND',  toMap:'underground', toX:25*TS, toY:7*TS+8 },
       // Sign
-      { type:'sign', id:'s_train', x:11*TS, y:0, text:['LINE 7', 'LAST CAR'] },
+      { type:'sign', id:'s_train', x:11*TS, y:2*TS, text:['LINE 7', 'LAST CAR'] },
     ],
   },
 
@@ -1576,7 +1579,7 @@ function drawNeonSigns(map, cx, cy, cw, ch) {
       { text: 'METRO B', x: 12 * TS, y: 2 * TS + 8, color: '#ff8c14', size: 12 },
     ],
     train: [
-      { text: 'LINE 7', x: 11 * TS, y: 1 * TS - 4, color: '#ffc94a', size: 11 },
+      { text: 'LINE 7', x: 11 * TS, y: 3 * TS - 4, color: '#ffc94a', size: 11 },
     ],
     finalshop: [
       { text: 'CRYSTAL NIGHTS', x: 7 * TS,  y: 2 * TS + 4,  color: '#b060ff', size: 11 },
