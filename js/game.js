@@ -821,6 +821,7 @@ function openDialog(npcId) {
   nextBtn.style.display    = 'inline-flex';
 
   document.getElementById('dialog-box').classList.add('active');
+  document.body.classList.add('dialog-open');
   typeDialogLine(npc.dialog[0]);
 }
 
@@ -916,6 +917,7 @@ function closeDialog() {
   clearTimeout(_typeTimer);
   G.dialog = null;
   document.getElementById('dialog-box').classList.remove('active');
+  document.body.classList.remove('dialog-open');
   document.getElementById('dialog-collect').style.display = 'none';
   document.getElementById('dialog-next').style.display    = 'inline-flex';
 }
@@ -1609,6 +1611,7 @@ function startGame() {
   if (hud) hud.classList.remove('hide');
 
   G.started = true;
+  document.body.classList.add('game-active');
   G.rainDrops = initRain();
   G.stars     = initStars();
 
@@ -1664,6 +1667,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // If returning player with save, skip title
   if (hasSave) {
     startGame();
+  }
+
+  // Mobile D-pad touch handlers
+  function bindDpadKey(id, key) {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('touchstart', e => { e.preventDefault(); G.keys[key] = true; }, { passive: false });
+    btn.addEventListener('touchend',   e => { e.preventDefault(); G.keys[key] = false; }, { passive: false });
+    btn.addEventListener('touchcancel', () => { G.keys[key] = false; });
+  }
+  bindDpadKey('dpad-up',    'up');
+  bindDpadKey('dpad-down',  'down');
+  bindDpadKey('dpad-left',  'left');
+  bindDpadKey('dpad-right', 'right');
+
+  const btnActionMobile = document.getElementById('btn-action-mobile');
+  if (btnActionMobile) {
+    btnActionMobile.addEventListener('touchstart', e => {
+      e.preventDefault();
+      handleAction();
+    }, { passive: false });
   }
 
   // Kick off loop

@@ -765,3 +765,147 @@ button {
 .track-item.active {
   color: var(--c-purple);
 }
+
+/* ── MOBILE CONTROLS (D-PAD) ──────────────────────────────── */
+
+#mobile-controls {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  z-index: 550;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 20px;
+  pointer-events: none;
+}
+
+#dpad {
+  display: grid;
+  grid-template-columns: 54px 54px 54px;
+  grid-template-rows: 54px 54px 54px;
+  gap: 3px;
+  pointer-events: auto;
+}
+
+#dpad-up    { grid-area: 1 / 2; }
+#dpad-left  { grid-area: 2 / 1; }
+#dpad-right { grid-area: 2 / 3; }
+#dpad-down  { grid-area: 3 / 2; }
+
+.dpad-btn {
+  background: rgba(10, 8, 22, 0.82);
+  border: 1px solid rgba(176, 96, 255, 0.3);
+  border-radius: 6px;
+  color: rgba(232, 224, 240, 0.55);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.dpad-btn:active {
+  background: rgba(176, 96, 255, 0.22);
+  border-color: var(--c-purple);
+  color: var(--c-purple);
+}
+
+#btn-action-mobile {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid rgba(176, 96, 255, 0.5);
+  background: rgba(176, 96, 255, 0.1);
+  color: var(--c-purple);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  pointer-events: auto;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  align-self: center;
+  margin-bottom: 24px;
+}
+
+#btn-action-mobile:active {
+  background: rgba(176, 96, 255, 0.3);
+}
+
+/* Show d-pad on touch devices when game is active */
+@media (hover: none) and (pointer: coarse) {
+  body.game-active #mobile-controls {
+    display: flex;
+  }
+  body.game-active.dialog-open #mobile-controls {
+    display: none;
+  }
+}
+
+/* ── RESPONSIVE — MOBILE ──────────────────────────────────── */
+
+@media (max-width: 600px) {
+  /* HUD */
+  #hud {
+    gap: 8px;
+    padding: 0 8px;
+  }
+  #hud-left {
+    min-width: auto;
+    gap: 6px;
+  }
+  #hud-location {
+    display: none;
+  }
+  #hud-crystals {
+    min-width: auto;
+  }
+  #hud-inventory {
+    gap: 4px;
+  }
+  .inv-slot {
+    width: 42px;
+    padding: 3px 2px;
+  }
+  #hud-right {
+    min-width: auto;
+  }
+  .hud-btn {
+    padding: 6px 10px;
+  }
+
+  /* Dialog */
+  #dialog-portrait {
+    width: 56px;
+    font-size: 28px;
+  }
+  #dialog-inner {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  #dialog-next,
+  #dialog-collect {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  /* Cassette player & tracklist */
+  #cassette-player,
+  #tracklist {
+    width: 100%;
+    max-width: 320px;
+  }
+  .track-item {
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+
+  /* Title */
+  .title-press {
+    display: none;
+  }
+}

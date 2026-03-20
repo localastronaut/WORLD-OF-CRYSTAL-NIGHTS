@@ -10,11 +10,11 @@
 
 /* ─── TRACK DATA ─────────────────────────────────────────── */
 const TRACKS = [
-  { num: '01', name: 'Intro',                time: '—', src: 'EP/1.Intro.wav' },
-  { num: '02', name: 'Buffering My Heart',   time: '—', src: 'EP/2.Buffering%20My%20Heart.wav' },
-  { num: '03', name: 'Somewhere in Between', time: '—', src: 'EP/3.Somewhere%20in%20Between.wav' },
-  { num: '04', name: 'Bedroom Stardust',     time: '—', src: 'EP/4.Bedroom%20Stardust.wav' },
-  { num: '05', name: 'Signals',              time: '—', src: 'EP/5.Signals.wav' },
+  { num: '01', name: 'Intro',                time: '—', src: 'EP/1.Intro.mp3' },
+  { num: '02', name: 'Buffering My Heart',   time: '—', src: 'EP/2.Buffering%20My%20Heart.mp3' },
+  { num: '03', name: 'Somewhere in Between', time: '—', src: 'EP/3.Somewhere%20in%20Between.mp3' },
+  { num: '04', name: 'Bedroom Stardust',     time: '—', src: 'EP/4.Bedroom%20Stardust.mp3' },
+  { num: '05', name: 'Signals',              time: '—', src: 'EP/5.Signals.mp3' },
 ];
 
 /* ─── AUDIO ──────────────────────────────────────────────── */
